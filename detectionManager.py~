@@ -16,8 +16,8 @@ class detectionManager:
         self.capture = cv.CreateCameraCapture(0)#camara con la que se captura, puede ir de 0 a n dependiendo de la cantidad de camaras
         self.width = None #en none va a auto detectar el tamaño 
         self.height = None #en none va a auto detectar el tamaño 
-        self.faceCascade = cv.Load("haarcascades/haarcascade_frontalface_alt.xml")
-        self.eyeCascade = cv.Load("haarcascades/haarcascade_eye.xml")
+        self.faceCascade = cv.Load("/usr/share/opencv/haarcascades/haarcascade_frontalface_alt.xml")
+        self.eyeCascade = cv.Load("/usr/share/opencv/haarcascades/haarcascade_eye.xml")
         self.Size()
         self.detection()
 
