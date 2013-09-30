@@ -11,8 +11,8 @@ capture = cv.CreateCameraCapture(0)
 
 width = None #en none va a auto detectar el tamaño 
 height = None #en none va a auto detectar el tamaño 
-faceCascade = cv.Load("haarcascades/haarcascade_frontalface_alt.xml")
-eyeCascade = cv.Load("haarcascades/haarcascade_eye.xml")
+faceCascade = cv.Load("/usr/share/opencv/haarcascades/haarcascade_frontalface_alt.xml")
+eyeCascade = cv.Load("/usr/share/opencv/haarcascades/haarcascade_eye.xml")
 #----------------------------------------------------------------------------------------------------------------------------
 #Tamaño de la camara
 if width is None:
