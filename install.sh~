@@ -1,0 +1,3 @@
+#!/bin/bash
+
+echo 'Recuerde ejecutar este Script como SUPER USUARIO'
