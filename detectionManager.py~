@@ -19,7 +19,7 @@ class detectionManager:
         self.faceCascade = cv.Load("haarcascades/haarcascade_frontalface_alt.xml")
         self.eyeCascade = cv.Load("haarcascades/haarcascade_eye.xml")
         self.Size()
-        self.detection()
+        #self.detection()
         
 
     def Size(self):
@@ -121,7 +121,7 @@ def main():
     Main
     """
     dm = detectionManager()
-    #dm.detection()
+    dm.detection()
     
     
 if __name__=='__main__':
