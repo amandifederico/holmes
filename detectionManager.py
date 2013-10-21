@@ -116,14 +116,14 @@ class detectionManager:
         return True
 
 #===============================================================================#
-def main():
+#def main():
     """
     Main
     """
-    dm = detectionManager()
-    dm.detection()
+#    dm = detectionManager()
+#    dm.detection()
     
     
-if __name__=='__main__':
-    main()
+#if __name__=='__main__':
+#    main()
 #===============================================================================#
