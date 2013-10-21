@@ -18,6 +18,7 @@ class detectionManager:
         self.height = None #en none va a auto detectar el tamaño 
         self.faceCascade = cv.Load("haarcascades/haarcascade_frontalface_alt.xml")
         self.eyeCascade = cv.Load("haarcascades/haarcascade_eye.xml")
+        self.handCascade = cv.Load("haarcascades/cascade.xml")
         self.Size()
         #self.detection()
         
@@ -42,9 +43,9 @@ class detectionManager:
         """
         Carga los haar necesarios para la deteccion de rotros y ojos
         """
-        return (faceCascade, eyeCascade)
+        return (faceCascade, eyeCascade, handCascade)
 
-    def DetectEyes(self,image, faceCascade, eyeCascade):
+    def DetectEyes(self,image, faceCascade, eyeCascade, handCascade):
 	    min_size = (20,20)
 	    image_scale = 2
 	    haar_scale = 1.2
@@ -65,13 +66,12 @@ class detectionManager:
 	    cv.EqualizeHist(smallImage, smallImage)
 
 	    # Usa el xml y la lectura de la camara reducida
-	    faces = cv.HaarDetectObjects(smallImage, faceCascade, cv.CreateMemStorage(0),
-	    haar_scale, min_neighbors, haar_flags, min_size)
-
+	    faces = cv.HaarDetectObjects(smallImage, faceCascade, cv.CreateMemStorage(0), haar_scale, min_neighbors, haar_flags, min_size)
+            hands = cv.HaarDetectObjects(smallImage, handCascade, cv.CreateMemStorage(0), haar_scale, min_neighbors, haar_flags, min_size)
 	    # Si se detectan rostros
-	    if faces:
-		    print ("Detecto una cara linda")
-		    for ((x, y, w, h), n) in faces:
+	    if hands:
+		    print ("Detecto una mano")
+		    for ((x, y, w, h), n) in hands:
 		    #the input to cv.HaarDetectObjects was resized, so scale the
 		    #bounding box of each face and convert it to two CvPoints
 			    pt1 = (int(x * image_scale), int(y * image_scale))
@@ -79,15 +79,9 @@ class detectionManager:
 			    cv.Rectangle(image, pt1, pt2, cv.RGB(255, 0, 0), 3, 8, 0)
 			    face_region = cv.GetSubRect(image,(x,int(y + (h/4)),w,int(h/2)))
 
-		    cv.SetImageROI(image, (pt1[0],
-			    pt1[1],
-			    pt2[0] - pt1[0],
-			    int((pt2[1] - pt1[1]) * 0.7)))
-		    eyes = cv.HaarDetectObjects(image, eyeCascade,
-		    cv.CreateMemStorage(0),
-		    haar_scale, min_neighbors,
-		    haar_flags, (15,15))	
-
+		    cv.SetImageROI(image, (pt1[0],pt1[1], pt2[0] - pt1[0], int((pt2[1] - pt1[1]) * 0.7)))
+		    #eyes = cv.HaarDetectObjects(image, eyeCascade,cv.CreateMemStorage(0),haar_scale, min_neighbors,haar_flags, (15,15))
+                    """
 		    if eyes:
 			    print("detecto ojos bellisimos")
 			    # por cada ojo detectado
@@ -99,7 +93,9 @@ class detectionManager:
 				    (eye[0][0] + eye[0][2],
 				    eye[0][1] + eye[0][3]),
 				    cv.RGB(15, 133, 224), 1, 8, 0)
-
+                    """
+            else:
+	        print ("no detecta nada")
 	    cv.ResetImageROI(image)
 	    return image
         
@@ -108,7 +104,7 @@ class detectionManager:
         while True:
 	    #capturando video
 	    img = cv.QueryFrame(self.capture)
-	    image = self.DetectEyes(img,self.faceCascade,self.eyeCascade)
+	    image = self.DetectEyes(img,self.faceCascade,self.eyeCascade,self.handCascade)
 	    #cv.ShowImage("camera", image)
 	    k = cv.WaitKey(10);
 	    if k == 'f':
